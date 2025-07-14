@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Eli</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0 15px 40px;
+      background: linear-gradient(135deg, #460000, #460000);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      color: #eee;
+      overflow-y: auto;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 10;
+      font-family: 'Poppins', sans-serif;
+      color: #ffffff;
+      font-size: 2.8em;
+      margin: 40px 0 30px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 7px #ffffff, 0 0 15px #fffbe3;
+      text-align: center;
+      user-select: none;
+    }
+
+    .cake {
+      position: relative;
+      margin-top: 80px;
+      width: 90vw;
+      max-width: 320px;
+      height: auto;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .layer {
+      width: 100%;
+      height: 40px;
+      background: #f3deb3;
+      border-radius: 10px;
+      box-shadow: inset 0 5px 8px #c7b089, 0 4px #b28e50;
+      margin-bottom: 7px;
+      position: relative;
+    }
+
+    .frosting {
+      width: 100%;
+      height: 20px;
+      background: 
+        radial-gradient(circle at 10% 30%, #ff6384 3px, transparent 4px),
+        radial-gradient(circle at 25% 60%, #ffcd56 3px, transparent 4px),
+        radial-gradient(circle at 40% 40%, #36a2eb 3px, transparent 4px),
+        radial-gradient(circle at 55% 75%, #4bc0c0 3px, transparent 4px),
+        radial-gradient(circle at 70% 30%, #9966ff 3px, transparent 4px),
+        radial-gradient(circle at 85% 60%, #ff9f40 3px, transparent 4px),
+        #840000;
+      border-radius: 10px;
+      margin-bottom: 3px;
+      box-shadow: inset 0 -2px #e6d8ae;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    .candle {
+      position: absolute;
+      width: 14px;
+      height: 40px;
+      background: #fff;
+      top: -55px;
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .flame {
+      position: absolute;
+      width: 14px;
+      height: 20px;
+      top: -22px;
+      left: 0;
+      background: rgb(244, 175, 46);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      filter: drop-shadow(0 0 5px rgb(255, 0, 0));
+      animation: flicker 0.4s infinite alternate;
+      z-index: 2;
+    }
+
+    .smoke {
+      position: absolute;
+      width: 14px;
+      height: 20px;
+      top: -20px;
+      left: 0;
+      background: radial-gradient(rgba(200, 200, 200, 0.5), transparent);
+      animation: smokeRise 2s ease-out forwards;
+      z-index: 1;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.2); opacity: 0.8; }
+    }
+    @keyframes smokeRise {
+      0% { transform: translateY(0); opacity: 0.8; }
+      100% { transform: translateY(-40px); opacity: 0; }
+    }
+
+    .controls {
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 22px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 10px;
+      background: #d4af37;
+      color: #3b2f0b;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 0 10px #b8860b;
+      transition: background 0.3s ease;
+      user-select: none;
+      touch-action: manipulation;
+    }
+    button:hover,
+    button:focus {
+      background: #ffd700;
+      color: #2f2505;
+      outline: none;
+    }
+
+    #hidden-message {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      font-size: 1.3em;
+      color: #f8ffad;
+      max-width: 500px;
+      text-align: center;
+      margin-top: 25px;
+      text-shadow: 0 0 8px #b8860b;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+
+    footer {
+      font-style: italic;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-align: center;
+      user-select: none;
+    }
+
+    canvas#balloon-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .balloon {
+      position: absolute;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      filter: drop-shadow(0 0 5px rgba(0,0,0,0.2));
+      animation: sway 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes sway {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(10px); }
+    }
+
+    audio#birthday-audio {
+      margin-top: 20px;
+      filter: drop-shadow(0 0 3px #d4af37);
+      width: 90vw;
+      max-width: 320px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy Birthday Eli</h1>
+
+  <div class="cake" id="cake">
+    <div class="frosting"></div>
+    <div class="layer"></div>
+    <div class="frosting"></div>
+    <div class="layer"></div>
+    <div class="frosting"></div>
+    <div class="layer"></div>
+  </div>
+
+  <div class="controls">
+    <button>Relight the Candles!</button>
+  </div>
+
+  <div id="hidden-message">
+    really wishing I was with you right now, showing you exactly how much I like you!❤️
+  </div>
+
+  <audio id="birthday-audio" controls>
+    <source src="https://isisgonsalves.github.io/song/birthdaysong.mp3" type="audio/mpeg" />
+  </audio>
+
+  <footer>from icy with love 💌 <br /><span id="ps"></span></footer>
+  <canvas id="balloon-canvas"></canvas>
+
+  <script>
+    const NUM_CANDLES = 7;
+    const cake = document.getElementById('cake');
+    const relightBtn = document.querySelector('button');
+    const message = document.getElementById('hidden-message');
+    const audio = document.getElementById('birthday-audio');
+    let candlesBlown = false;
+
+    function createCandles() {
+      document.querySelectorAll('.candle').forEach(c => c.remove());
+      const spacing = 40;
+      const startLeft = 20;
+      for (let i = 0; i < NUM_CANDLES; i++) {
+        const candle = document.createElement('div');
+        candle.classList.add('candle');
+        candle.style.left = (startLeft + i * spacing) + 'px';
+
+        const flame = document.createElement('div');
+        flame.classList.add('flame');
+        candle.appendChild(flame);
+        cake.appendChild(candle);
+      }
+    }
+
+    function blowCandles() {
+      if (candlesBlown) return;
+      candlesBlown = true;
+      document.querySelectorAll('.flame').forEach(flame => {
+        const smoke = document.createElement('div');
+        smoke.classList.add('smoke');
+        flame.parentNode.replaceChild(smoke, flame);
+        setTimeout(() => smoke.remove(), 2000);
+      });
+      message.style.display = 'block';
+      setTimeout(() => {
+        message.style.opacity = '1';
+      }, 50);
+    }
+
+    function resetCandles() {
+      if (!candlesBlown) return;
+      candlesBlown = false;
+      createCandles();
+      message.style.opacity = '0';
+      setTimeout(() => {
+        message.style.display = 'none';
+      }, 1000);
+    }
+
+    function playAudio() {
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      }
+    }
+
+    // Initialize
+    createCandles();
+
+    cake.addEventListener('click', () => {
+      if (!candlesBlown) {
+        blowCandles();
+        playAudio();
+      }
+    });
+
+    relightBtn.addEventListener('click', () => {
+      resetCandles();
+      playAudio();
+    });
+
+    // Balloon animation code
+    const canvas = document.getElementById('balloon-canvas');
+    const ctx = canvas.getContext('2d');
+    let balloons = [];
+
+    const balloonColors = ['#FF6347', '#FFD700', '#32CD32', '#1E90FF', '#FF69B4', '#FF8C00', '#00CED1'];
+
+    class Balloon {
+      constructor() {
+        this.x = Math.random() * window.innerWidth;
+        this.y = window.innerHeight + Math.random() * 200;
+        this.radius = 20 + Math.random() * 15;
+        this.color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+        this.speed = 1 + Math.random() * 2;
+        this.swingPhase = Math.random() * 2 * Math.PI;
+        this.swingAmplitude = 15 + Math.random() * 10;
+        this.swingSpeed = 0.02 + Math.random() * 0.02;
+        this.age = 0;
+      }
+
+      update() {
+        this.y -= this.speed;
+        this.x += Math.sin(this.age * this.swingSpeed + this.swingPhase) * 0.5;
+        this.age++;
+
+        if (this.y + this.radius < 0) {
+          // Balloon went off screen — remove from balloons array
+          return false;
+        }
+        return true;
+      }
+
+      draw(ctx) {
+        // Draw string
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y + this.radius);
+        ctx.lineTo(this.x, this.y + this.radius + 20);
+        ctx.stroke();
+
+        // Balloon body
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.radius * 0.7, this.radius, 0, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Highlight
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.beginPath();
+        ctx.ellipse(this.x - this.radius * 0.3, this.y - this.radius * 0.3, this.radius * 0.15, this.radius * 0.35, -Math.PI / 4, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+    }
+
+    function startBalloons() {
+      balloons = [];
+      for (let i = 0; i < 50; i++) {
+        balloons.push(new Balloon());
+      }
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        balloons = balloons.filter(balloon => {
+          const stillOnScreen = balloon.update();
+          if (stillOnScreen) balloon.draw(ctx);
+          return stillOnScreen;
+        });
+
+        if (balloons.length > 0) {
+          requestAnimationFrame(animate);
+        } else {
+          // All balloons gone, clear canvas to remove any residue
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      animate();
+    }
+
+    // Mic blowing detection
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      const ctx = new AudioContext();
+      const mic = ctx.createMediaStreamSource(stream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      mic.connect(analyser);
+      const data = new Uint8Array(analyser.frequencyBinCount);
+
+      function detectBlow() {
+        analyser.getByteFrequencyData(data);
+        const volume = data.reduce((a, b) => a + b) / data.length;
+        if (volume > 35 && !candlesBlown) {
+          blowCandles();
+          playAudio();
+        }
+        requestAnimationFrame(detectBlow);
+      }
+
+      detectBlow();
+    }).catch(() => {});
+
+    startBalloons();
+  </script>
+</body>
+</html>
